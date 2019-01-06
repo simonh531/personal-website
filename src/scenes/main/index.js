@@ -3,6 +3,18 @@ import { Link } from "react-router-dom"
 import { withRouter } from 'react-router'
 import MediaQuery from 'react-responsive'
 
+import Davocat from './davocat.png'
+import Dungeonlab from './dungeonlab.png'
+import Girl from './girl.jpg'
+import Giventure from './giventure.png'
+import Greenplug from './greenplug.png'
+import Dicepub from './dicepub.png'
+import Linkedin from './Logo-2C-28px-R.png'
+import Pib from './pib.jpg'
+import Portrait from './portrait.jpg'
+import Resume from './Resume.pdf'
+import Sh from './SH.svg'
+import Shark from './shark.jpg'
 
 const FadeIn = props => (
   <div style={{position:"relative",opacity:props.show ? "1" : "0",bottom:props.show ? "0" : "20px",transition:"opacity 0.1s, bottom 0.1s"}}>
@@ -279,7 +291,7 @@ class Main extends Component {
         <div style={{padding:"20px " + (match?"10px":"20%"), marginTop:window.innerHeight}} ref={this.about}>
           <div style={{fontSize:"3em",margin:"20px 0",font:"'Montserrat', sans-serif",fontWeight:"300"}}>About</div>
           <div style={{fontSize:match?"":"1.2em",lineHeight:match?"":"1.2em"}}>
-            <img src="portrait.jpg" alt="" style={{float:match?"":"left",height:"200px",margin:match?"auto":"1ch",borderRadius:"50%",display:match?"block":""}}/>
+            <img src={Portrait} alt="" style={{float:match?"":"left",height:"200px",margin:match?"auto":"1ch",borderRadius:"50%",display:match?"block":""}}/>
             <p>
               Hey! I’m Simon Huang and I make websites and web apps, among many other things.
             </p>
@@ -307,8 +319,8 @@ class Main extends Component {
             <div style={{display:"flex",flexWrap:"wrap",justifyContent:"space-evenly",alignItems:"center"}}>
               <div>me@simonh.io</div>
               <div>(650)866-5531</div>
-              <a href="https://www.linkedin.com/in/simon-huang-25b931104" target="_blank" rel="noopener noreferrer"><img src="Logo-2C-28px-R.png" alt="" style={{display:"block"}}/></a>
-              <a href="Resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+              <a href="https://www.linkedin.com/in/simon-huang-25b931104" target="_blank" rel="noopener noreferrer"><img src={Linkedin} alt="LinkedIn" style={{display:"block"}}/></a>
+              <a href={Resume} target="_blank" rel="noopener noreferrer">Resume</a>
             </div>
           </div>
         </div>
@@ -316,7 +328,7 @@ class Main extends Component {
         <div style={{backgroundColor:"#666"}} ref={this.work}>
           <div style={{fontSize:"3em",margin:"0 20%", padding:"20px 0", font:"'Montserrat', sans-serif",fontWeight:"300", color:"white"}}>Work</div>
           <div style={{display:"flex", flexWrap:"wrap", justifyContent:"space-evenly"}}>
-            <DisplayBox toggle={(id)=>this.setState({work:id})} id={1} current={this.state.work} title="Project-in-a-Box" img="pib.png">
+            <DisplayBox toggle={(id)=>this.setState({work:id})} id={1} current={this.state.work} title="Project-in-a-Box" img={Pib}>
               <div style={{fontFamily:"'Montserrat', sans-serif",marginBottom:"0.5em"}}>
                 Project Manager<br/>La Jolla, CA<br/>October 2016 - June 2017
               </div>
@@ -330,7 +342,7 @@ class Main extends Component {
                 Built with Node.js, React, Express.js, and Bootstrap and hosted on Heroku.
               </p>
             </DisplayBox>
-            <DisplayBox toggle={(id)=>this.setState({work:id})} id={2} current={this.state.work} title="Giventure" img="giventure.png">
+            <DisplayBox toggle={(id)=>this.setState({work:id})} id={2} current={this.state.work} title="Giventure" img={Giventure}>
               <div style={{fontFamily:"'Montserrat', sans-serif",marginBottom:"0.5em"}}>
                 Full Stack Developer<br/>La Jolla, CA<br/>October 2014 - June 2016
               </div>
@@ -344,7 +356,7 @@ class Main extends Component {
                 Built with Node.js, AngularJS, Express, Bootstrap, and Facebook API and hosted on Microsoft Azure.
               </p>
             </DisplayBox>
-            <DisplayBox toggle={(id)=>this.setState({work:id})} id={3} current={this.state.work} title="Green Plug" img="greenplug.png">
+            <DisplayBox toggle={(id)=>this.setState({work:id})} id={3} current={this.state.work} title="Green Plug" img={Greenplug}>
               <div style={{fontFamily:"'Montserrat', sans-serif",marginBottom:"0.5em"}}>
                 Web Developer<br/>San Ramon, CA<br/>September 2012 - January 2013
               </div>
@@ -361,7 +373,7 @@ class Main extends Component {
         <div style={{backgroundColor:"#666"}} ref={this.projects}>
           <div style={{fontSize:"3em",margin:"0 20%", padding:"20px 0", font:"'Montserrat', sans-serif",fontWeight:"300", color:"white"}}>Projects</div>
           <div style={{display:"flex", flexWrap:"wrap", justifyContent:"space-evenly"}}>
-            <DisplayBox toggle={(id)=>this.setState({projects:id})} id={1} current={this.state.projects} title="dice.pub" img="dicepub.png">
+            <DisplayBox toggle={(id)=>this.setState({projects:id})} id={1} current={this.state.projects} title="dice.pub" img={Dicepub}>
               <div style={{fontFamily:"'Montserrat', sans-serif",marginBottom:"0.5em"}}>
                 <a href="https://www.dice.pub">dice.pub</a>
               </div>
@@ -375,7 +387,7 @@ class Main extends Component {
                 Built with Node.js, React, Redux, Express.js, Redis, and Websocket and hosted on Heroku
               </p>
             </DisplayBox>
-            <DisplayBox toggle={(id)=>this.setState({projects:id})} id={2} current={this.state.projects} title="Davocat" img="davocat.png">
+            <DisplayBox toggle={(id)=>this.setState({projects:id})} id={2} current={this.state.projects} title="Davocat" img={Davocat}>
               <p>
                 As an experiment, I wanted to create a sort of message board based on controlled anonymity. Davocat, a corruption of "advocate," is the result. Davocat is forum-like app where content is shared primarily using randomized usernames. Comments and posts are in Quill.js format, comment trees are stored in a MySQL database, and content is previewed with Embedly.
               </p>
@@ -392,17 +404,17 @@ class Main extends Component {
         <div style={{backgroundColor:"#666"}} ref={this.design}>
           <div style={{fontSize:"3em",margin:"0 20%", padding:"20px 0", font:"'Montserrat', sans-serif",fontWeight:"300", color:"white"}}>Design</div>
           <div style={{display:"flex", flexWrap:"wrap", justifyContent:"space-evenly"}}>
-            <DisplayBox toggle={(id)=>this.setState({design:id})} id={1} current={this.state.design} title="Vector Art" img="girl.jpg">
+            <DisplayBox toggle={(id)=>this.setState({design:id})} id={1} current={this.state.design} title="Vector Art" img={Girl}>
               <p>
                 I personally prefer vector art over raster art because I feel like I can obtain far more precision with vector graphics. I really like the clean edges, potential to add detail without end, and scalability that I can't really get with pixels.
               </p>
             </DisplayBox>
-            <DisplayBox toggle={(id)=>this.setState({design:id})} id={2} current={this.state.design} title="Logos" img="dungeonlab.png">
+            <DisplayBox toggle={(id)=>this.setState({design:id})} id={2} current={this.state.design} title="Logos" img={Dungeonlab}>
               <p>
                 When creating a logo or a mascot, I start by making dozens of mockups and choose one to refine according to my client's or my own preferences. I'll check in with them every step of the way on how the product looks until it reaches a point where they're satisfied.
               </p>
             </DisplayBox>
-            <DisplayBox toggle={(id)=>this.setState({design:id})} id={3} current={this.state.design} title="Sculpture" img="shark.jpg">
+            <DisplayBox toggle={(id)=>this.setState({design:id})} id={3} current={this.state.design} title="Sculpture" img={Shark}>
               <p>
                 I like bringing my ideas to life and sculpture is about as direct as it gets when it comes to building something in the real world. The materials I specialize in are paper and wire because they're easy to acquire and very flexible. I can choose to add incredible amounts of detail or I can choose to have limitations on how I'm allowed to use the medium to bring out a certain beauty in a work.
               </p>
@@ -418,9 +430,9 @@ class Main extends Component {
           <div style={{fontSize:"1.5em",lineHeight:"1.5em"}}>
             <div>me@simonh.io</div>
             <div>(650)866-5531</div>
-            <a href="https://www.linkedin.com/in/simon-huang-25b931104" target="_blank" rel="noopener noreferrer"><img src="Logo-2C-28px-R.png" alt="" style={{display:"block"}}/></a>
-            <a href="Resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
-            <img src="SH.svg" alt="" style={{width:"200px", margin:"20px 0",display:"block"}}/>
+            <a href="https://www.linkedin.com/in/simon-huang-25b931104" target="_blank" rel="noopener noreferrer"><img src={Linkedin} alt="LinkedIn" style={{display:"block"}}/></a>
+            <a href={Resume} target="_blank" rel="noopener noreferrer">Resume</a>
+            <img src={Sh} alt="" style={{width:"200px", margin:"20px 0",display:"block"}}/>
           </div>
         </div>
       </div>
