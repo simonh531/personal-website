@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.4.2",
     "@mui/material": "^5.6.0",
-    "abstract-designs": "file:../abstract-designs",
+    "abstract-designs": "github:simonh531/abstract-designs",
     "contentful": "^9.1.12",
     "dotenv": "^16.0.0",
     "next": "^12.1.4",
