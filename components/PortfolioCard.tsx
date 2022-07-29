@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import {
-  Typography, Box, Card, Grid, Container, Stack, IconButton,
+  Typography, Box, Card, Grid, Container, Stack, IconButton, Paper,
   CardHeader, CardMedia, CardActionArea, CardActions, Avatar, Button, useMediaQuery,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -10,13 +10,14 @@ import { ContentfulPortfolioEntry, Picture } from '../utils/contentfulDefs';
 import style from '../styles/contentfulStyle';
 
 export default function PortfolioCard({
-  item, isMobile, focused, setFocused, setUnfocused,
+  item, isMobile, focused, setFocused, setUnfocused, useTransition,
 }:{
   item: ContentfulPortfolioEntry
   isMobile: boolean
   focused: boolean
   setFocused: () => void
   setUnfocused: () => void
+  useTransition: boolean
 }) {
   const {
     name, url, iconLink, picture, mobileScreenshot, description,
@@ -24,12 +25,17 @@ export default function PortfolioCard({
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down('sm'));
+
   const [screenshotIndex, setScreenshotIndex] = useState(0);
+  const [hoverScreenShotIndex, setHoverScreenShotIndex] = useState(-1);
+
   const openingHeight = focused ? '600px' : '0px';
   const pictureSelector = ({ fields }:{ fields: Picture['fields']}, index:number) => (
-    <Card square key={fields.file.url} sx={{ backgroundColor: 'transparent' }}>
+    <Card key={fields.file.url} sx={{ backgroundColor: 'transparent' }}>
       <CardActionArea
         onClick={() => setScreenshotIndex(index)}
+        onMouseEnter={() => setHoverScreenShotIndex(index)}
+        onMouseLeave={() => setHoverScreenShotIndex(-1)}
         sx={{
           height: {
             xs: '30px',
@@ -53,6 +59,9 @@ export default function PortfolioCard({
       </CardActionArea>
     </Card>
   );
+
+  const pictureIndex = hoverScreenShotIndex === -1 ? screenshotIndex : hoverScreenShotIndex;
+
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Box>
@@ -71,14 +80,12 @@ export default function PortfolioCard({
             <CardActionArea onClick={focused ? setUnfocused : setFocused}>
               <CardHeader
                 avatar={iconLink ? (
-                  <Avatar
-                    src={iconLink}
-                    variant="rounded"
-                    sx={{
-                      backgroundColor: '#888888',
-                      boxShadow: 'rgb(0 0 0 / 20%) 0px 2px 1px -1px, rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px',
-                    }}
-                  />
+                  <Paper sx={{ backgroundColor: '#888888' }}>
+                    <Avatar
+                      src={iconLink}
+                      variant="rounded"
+                    />
+                  </Paper>
                 ) : null}
                 title={name}
                 titleTypographyProps={{
@@ -118,6 +125,7 @@ export default function PortfolioCard({
           left: '0',
           backdropFilter: 'contrast(60%) brightness(30%) blur(2px)',
           color: 'rgba(255,255,255,0.87)',
+          transition: useTransition ? 'height 3s' : '',
         }}
         >
           <Container
@@ -136,7 +144,7 @@ export default function PortfolioCard({
               <span className="material-icons">close</span>
             </IconButton>
             <Stack spacing={1} sx={{ height: '100%' }}>
-              <Stack direction="row" spacing={1} sx={{ alignItems: 'center', marginBottom: 2 }}>
+              <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                 {iconLink ? (
                   <Avatar
                     src={iconLink}
@@ -151,6 +159,16 @@ export default function PortfolioCard({
                   {name}
                 </Typography>
               </Stack>
+              <Button
+                size="large"
+                color="primary"
+                sx={{ textTransform: 'none', color: 'rgba(255,255,255,0.87)', alignSelf: 'flex-start' }}
+                component="a"
+                href={`https://${url}`}
+              >
+                <span className="material-icons">link</span>
+                {url}
+              </Button>
               <Stack direction={isXs ? 'column' : 'row'} spacing={1}>
                 <Stack spacing={1} direction={isXs ? 'row' : 'column'}>
                   {isMobile ? mobileScreenshot.map(pictureSelector) : picture.map(pictureSelector)}
@@ -164,11 +182,11 @@ export default function PortfolioCard({
                       width={isMobile ? 390 : 1920}
                       height={isMobile ? 844 : 1080}
                       src={`https:${isMobile
-                        ? mobileScreenshot[screenshotIndex].fields.file.url
-                        : picture[screenshotIndex].fields.file.url
+                        ? mobileScreenshot[pictureIndex].fields.file.url
+                        : picture[pictureIndex].fields.file.url
                       }`}
                       layout="responsive"
-                      alt={picture[screenshotIndex].fields.title}
+                      alt={picture[pictureIndex].fields.title}
                     />
                   </Box>
                 </Box>
@@ -179,7 +197,7 @@ export default function PortfolioCard({
             </Stack>
           </Container>
         </Box>
-        <Box sx={{ height: openingHeight, transition: 'height 0.2s' }} />
+        <Box sx={{ height: openingHeight, transition: useTransition ? 'height 0.2s' : '' }} />
       </Box>
     </Grid>
   );

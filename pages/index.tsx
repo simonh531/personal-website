@@ -35,7 +35,17 @@ export default function Home({ portfolio, otherPortfolio }:{
 
   const [tab, setTab] = useState(0);
   const [focusedItem, setFocusedItem] = useState(-1);
-  const setUnfocused = () => setFocusedItem(-1);
+  // transition plays if the transition property exists after the change
+  const [useTransition, setUseTransition] = useState(true);
+  const setFocused = (item:number) => () => {
+    // set useTransition to true if the focused item is -1, false otherwise
+    setUseTransition(focusedItem === -1);
+    setFocusedItem(item);
+  };
+  const setUnfocused = () => {
+    setUseTransition(true);
+    setFocusedItem(-1);
+  };
   // const [isList, setIsList] = useState(false);
 
   const portfolioRef = useRef<HTMLDivElement>(null);
@@ -153,8 +163,9 @@ export default function Home({ portfolio, otherPortfolio }:{
                   item={item}
                   isMobile={false}
                   focused={focusedItem === index}
-                  setFocused={() => setFocusedItem(index)}
+                  setFocused={setFocused(index)}
                   setUnfocused={setUnfocused}
+                  useTransition={useTransition}
                 />
               ))
               : items.map((item, index) => (
@@ -163,8 +174,9 @@ export default function Home({ portfolio, otherPortfolio }:{
                   item={item}
                   isMobile={tab === 1}
                   focused={focusedItem === index}
-                  setFocused={() => setFocusedItem(index)}
+                  setFocused={setFocused(index)}
                   setUnfocused={setUnfocused}
+                  useTransition={useTransition}
                 />
               ))}
           </Grid>
