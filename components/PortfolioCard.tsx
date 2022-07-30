@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { ContentfulPortfolioEntry, Picture } from '../utils/contentfulDefs';
+import { ContentfulPortfolioEntry, Picture } from '../utils/contentful';
 import style from '../styles/contentfulStyle';
 
 export default function PortfolioCard({
@@ -79,14 +79,14 @@ export default function PortfolioCard({
           <Card sx={{ zIndex: '1' }} elevation={3}>
             <CardActionArea onClick={focused ? setUnfocused : setFocused}>
               <CardHeader
-                avatar={iconLink ? (
+                avatar={(
                   <Paper sx={{ backgroundColor: '#888888' }}>
                     <Avatar
-                      src={iconLink}
+                      src={iconLink || '/apple-touch-icon.png'}
                       variant="rounded"
                     />
                   </Paper>
-                ) : null}
+                )}
                 title={name}
                 titleTypographyProps={{
                   variant: 'h5',
@@ -97,7 +97,7 @@ export default function PortfolioCard({
                   <Image
                     width={isMobile ? 390 : 1920}
                     height={isMobile ? 844 : 1080}
-                    src={`https:${isMobile
+                    src={`https:${isMobile && mobileScreenshot
                       ? mobileScreenshot[0].fields.file.url
                       : picture[0].fields.file.url
                     }`}
@@ -125,7 +125,7 @@ export default function PortfolioCard({
           left: '0',
           backdropFilter: 'contrast(60%) brightness(30%) blur(2px)',
           color: 'rgba(255,255,255,0.87)',
-          transition: useTransition ? 'height 3s' : '',
+          transition: useTransition ? 'height 0.2s' : '',
         }}
         >
           <Container
@@ -145,16 +145,14 @@ export default function PortfolioCard({
             </IconButton>
             <Stack spacing={1} sx={{ height: '100%' }}>
               <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                {iconLink ? (
-                  <Avatar
-                    src={iconLink}
-                    variant="rounded"
-                    sx={{
-                      backgroundColor: '#888888',
-                      boxShadow: 'rgb(0 0 0 / 20%) 0px 2px 1px -1px, rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px',
-                    }}
-                  />
-                ) : null }
+                <Avatar
+                  src={iconLink || '/apple-touch-icon.png'}
+                  variant="rounded"
+                  sx={{
+                    backgroundColor: '#888888',
+                    boxShadow: 'rgb(0 0 0 / 20%) 0px 2px 1px -1px, rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px',
+                  }}
+                />
                 <Typography variant="h3" sx={{ fontSize: { xs: '1.8rem', sm: '2rem' } }}>
                   {name}
                 </Typography>
@@ -171,7 +169,8 @@ export default function PortfolioCard({
               </Button>
               <Stack direction={isXs ? 'column' : 'row'} spacing={1}>
                 <Stack spacing={1} direction={isXs ? 'row' : 'column'}>
-                  {isMobile ? mobileScreenshot.map(pictureSelector) : picture.map(pictureSelector)}
+                  {isMobile && mobileScreenshot
+                    ? mobileScreenshot.map(pictureSelector) : picture.map(pictureSelector)}
                 </Stack>
                 <Box sx={{
                   flex: '1', position: 'relative', display: 'flex', justifyContent: 'center',
@@ -181,7 +180,7 @@ export default function PortfolioCard({
                     <Image
                       width={isMobile ? 390 : 1920}
                       height={isMobile ? 844 : 1080}
-                      src={`https:${isMobile
+                      src={`https:${isMobile && mobileScreenshot
                         ? mobileScreenshot[pictureIndex].fields.file.url
                         : picture[pictureIndex].fields.file.url
                       }`}

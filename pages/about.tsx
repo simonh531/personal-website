@@ -5,7 +5,7 @@ import {
   BLOCKS, Block, Inline, Document,
 } from '@contentful/rich-text-types';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import contentfulClient from '../contentful';
+import contentfulClient from '../utils/contentful';
 
 const options = {
   renderNode: {

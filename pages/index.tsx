@@ -9,10 +9,9 @@ import {
 import { useTheme } from '@mui/material/styles';
 // import ViewListIcon from '@mui/icons-material/ViewList';
 // import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import contentfulClient from '../contentful';
+import contentfulClient, { ContentfulPortfolioEntry } from '../utils/contentful';
 import FlipPaper from '../components/flipPaper';
 import PortfolioCard from '../components/PortfolioCard';
-import { ContentfulPortfolioEntry } from '../utils/contentfulDefs';
 
 export default function Home({ portfolio, otherPortfolio }:{
   portfolio: {
