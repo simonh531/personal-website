@@ -5,6 +5,12 @@ export interface Picture {
   fields: {
     title: string
     file: {
+      details: {
+        image: {
+          width: number
+          height: number
+        }
+      }
       url: string
     }
   }
@@ -14,6 +20,9 @@ export interface ContentfulPortfolioEntry {
   fields: {
     name: string,
     url: string,
+    order: number
+    web: boolean,
+    mobile: boolean,
     iconLink: string,
     picture: Picture[],
     mobileScreenshot: Picture[],

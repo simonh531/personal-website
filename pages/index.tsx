@@ -33,21 +33,70 @@ export default function Home({ portfolio, otherPortfolio }:{
   const isXs = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [tab, setTab] = useState(0);
-  const [focusedItem, setFocusedItem] = useState(-1);
+  const [focusedItem, setFocusedItem] = useState('');
   // transition plays if the transition property exists after the change
   const [useTransition, setUseTransition] = useState(true);
-  const setFocused = (item:number) => () => {
-    // set useTransition to true if the focused item is -1, false otherwise
-    setUseTransition(focusedItem === -1);
+  const setFocused = (item:string) => () => {
+    // set useTransition to true if the focused item is '', false otherwise
+    setUseTransition(focusedItem === '');
     setFocusedItem(item);
   };
   const setUnfocused = () => {
     setUseTransition(true);
-    setFocusedItem(-1);
+    setFocusedItem('');
   };
   // const [isList, setIsList] = useState(false);
 
   const portfolioRef = useRef<HTMLDivElement>(null);
+
+  let portfolioItems;
+  switch (tab) {
+    case 0:
+      portfolioItems = items.filter((item) => item.fields.web).sort(
+        (item1, item2) => item2.fields.order - item1.fields.order,
+      ).map((item) => (
+        <PortfolioCard
+          key={item.fields.name}
+          item={item}
+          pictures={item.fields.picture}
+          focused={focusedItem === item.fields.name}
+          setFocused={setFocused(item.fields.name)}
+          setUnfocused={setUnfocused}
+          useTransition={useTransition}
+        />
+      ));
+      break;
+    case 1:
+      portfolioItems = items.filter((item) => item.fields.mobile).sort(
+        (item1, item2) => item2.fields.order - item1.fields.order,
+      ).map((item) => (
+        <PortfolioCard
+          key={item.fields.name}
+          item={item}
+          pictures={item.fields.mobileScreenshot}
+          focused={focusedItem === item.fields.name}
+          setFocused={setFocused(item.fields.name)}
+          setUnfocused={setUnfocused}
+          useTransition={useTransition}
+        />
+      ));
+      break;
+    case 2:
+      portfolioItems = otherItems.map((item) => (
+        <PortfolioCard
+          key={item.fields.name}
+          item={item}
+          pictures={item.fields.picture}
+          focused={focusedItem === item.fields.name}
+          setFocused={setFocused(item.fields.name)}
+          setUnfocused={setUnfocused}
+          useTransition={useTransition}
+        />
+      ));
+      break;
+    default:
+      break;
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // const handleIsList = (event:React.MouseEvent<HTMLElement, MouseEvent>, value:any) => {
@@ -155,29 +204,7 @@ export default function Home({ portfolio, otherPortfolio }:{
       <Box sx={{ overflow: 'hidden', position: 'relative' }}>
         <Container sx={{ zIndex: '4' }}>
           <Grid container spacing={2}>
-            { tab === 2
-              ? otherItems.map((item, index) => (
-                <PortfolioCard
-                  key={item.fields.name}
-                  item={item}
-                  isMobile={false}
-                  focused={focusedItem === index}
-                  setFocused={setFocused(index)}
-                  setUnfocused={setUnfocused}
-                  useTransition={useTransition}
-                />
-              ))
-              : items.map((item, index) => (
-                <PortfolioCard
-                  key={item.fields.name}
-                  item={item}
-                  isMobile={tab === 1}
-                  focused={focusedItem === index}
-                  setFocused={setFocused(index)}
-                  setUnfocused={setUnfocused}
-                  useTransition={useTransition}
-                />
-              ))}
+            {portfolioItems}
           </Grid>
         </Container>
       </Box>
