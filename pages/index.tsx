@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import {
   Box,
@@ -48,55 +48,72 @@ export default function Home({ portfolio, otherPortfolio }:{
   // const [isList, setIsList] = useState(false);
 
   const portfolioRef = useRef<HTMLDivElement>(null);
+  const keySet = new Set();
 
   let portfolioItems;
   switch (tab) {
     case 0:
       portfolioItems = items.filter((item) => item.fields.web).sort(
         (item1, item2) => item2.fields.order - item1.fields.order,
-      ).map((item) => (
-        <PortfolioCard
-          key={item.fields.name}
-          item={item}
-          pictures={item.fields.picture}
-          focused={focusedItem === item.fields.name}
-          setFocused={setFocused(item.fields.name)}
-          setUnfocused={setUnfocused}
-          useTransition={useTransition}
-        />
-      ));
+      ).map((item) => {
+        keySet.add(item.fields.name);
+        return (
+          <PortfolioCard
+            key={item.fields.name}
+            item={item}
+            pictures={item.fields.picture}
+            focused={focusedItem === item.fields.name}
+            setFocused={setFocused(item.fields.name)}
+            setUnfocused={setUnfocused}
+            useTransition={useTransition}
+          />
+        );
+      });
       break;
     case 1:
       portfolioItems = items.filter((item) => item.fields.mobile).sort(
         (item1, item2) => item2.fields.order - item1.fields.order,
-      ).map((item) => (
-        <PortfolioCard
-          key={item.fields.name}
-          item={item}
-          pictures={item.fields.mobileScreenshot}
-          focused={focusedItem === item.fields.name}
-          setFocused={setFocused(item.fields.name)}
-          setUnfocused={setUnfocused}
-          useTransition={useTransition}
-        />
-      ));
+      ).map((item) => {
+        keySet.add(item.fields.name);
+        return (
+          <PortfolioCard
+            key={item.fields.name}
+            item={item}
+            pictures={item.fields.mobileScreenshot}
+            focused={focusedItem === item.fields.name}
+            setFocused={setFocused(item.fields.name)}
+            setUnfocused={setUnfocused}
+            useTransition={useTransition}
+          />
+        );
+      });
       break;
     case 2:
-      portfolioItems = otherItems.map((item) => (
-        <PortfolioCard
-          key={item.fields.name}
-          item={item}
-          pictures={item.fields.picture}
-          focused={focusedItem === item.fields.name}
-          setFocused={setFocused(item.fields.name)}
-          setUnfocused={setUnfocused}
-          useTransition={useTransition}
-        />
-      ));
+      portfolioItems = otherItems.map((item) => {
+        keySet.add(item.fields.name);
+        return (
+          <PortfolioCard
+            key={item.fields.name}
+            item={item}
+            pictures={item.fields.picture}
+            focused={focusedItem === item.fields.name}
+            setFocused={setFocused(item.fields.name)}
+            setUnfocused={setUnfocused}
+            useTransition={useTransition}
+          />
+        );
+      });
       break;
     default:
       break;
   }
+
+  useEffect(() => {
+    if (!keySet.has(focusedItem)) {
+      setFocusedItem('');
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // const handleIsList = (event:React.MouseEvent<HTMLElement, MouseEvent>, value:any) => {

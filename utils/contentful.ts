@@ -27,6 +27,7 @@ export interface ContentfulPortfolioEntry {
     picture: Picture[],
     mobileScreenshot: Picture[],
     description: Document,
+    tech: string[],
   }
 }
 

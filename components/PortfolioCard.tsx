@@ -3,13 +3,15 @@ import React, {
 } from 'react';
 import Image from 'next/image';
 import {
-  Typography, Box, Card, Grid, Container, Stack, IconButton, Paper,
+  Typography, Box, Card, Grid, Container, Stack, IconButton, Paper, Chip,
   CardHeader, CardMedia, CardActionArea, CardActions, Avatar, Button, useMediaQuery,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { ContentfulPortfolioEntry, Picture } from '../utils/contentful';
 import style from '../styles/contentfulStyle';
+
+const transitionTime = '0.5s';
 
 // eslint-disable-next-line react/display-name
 const Content = forwardRef(({
@@ -22,7 +24,7 @@ const Content = forwardRef(({
   setUnfocused?: () => void
 }, ref) => {
   const {
-    name, url, iconLink, description,
+    name, url, iconLink, description, tech,
   } = item.fields;
   const {
     width: firstWidth,
@@ -76,7 +78,7 @@ const Content = forwardRef(({
         left: '0',
         backdropFilter: 'contrast(60%) brightness(30%) blur(2px)',
         color: 'rgba(255,255,255,0.87)',
-        transition: useTransition ? 'height 0.2s' : '',
+        transition: useTransition ? `height ${transitionTime}` : '',
         opacity: !setUnfocused ? '0' : '1', // is dummy component
         pointerEvents: !setUnfocused ? 'none' : 'auto',
       }}
@@ -111,16 +113,18 @@ const Content = forwardRef(({
               {name}
             </Typography>
           </Stack>
-          <Button
-            size="large"
-            color="primary"
-            sx={{ textTransform: 'none', color: 'rgba(255,255,255,0.87)', alignSelf: 'flex-start' }}
-            component="a"
-            href={`https://${url}`}
-          >
-            <span className="material-icons">link</span>
-            {url}
-          </Button>
+          {url && (
+            <Button
+              size="large"
+              color="primary"
+              sx={{ textTransform: 'none', color: 'rgba(255,255,255,0.87)', alignSelf: 'flex-start' }}
+              component="a"
+              href={`https://${url}`}
+            >
+              <span className="material-icons">link</span>
+              {url}
+            </Button>
+          )}
           <Stack direction={isXs ? 'column' : 'row'} spacing={1}>
             <Stack spacing={1} direction={isXs ? 'row' : 'column'}>
               {pictures.map(pictureSelector)}
@@ -141,6 +145,9 @@ const Content = forwardRef(({
             </Box>
           </Stack>
           {documentToReactComponents(description, style)}
+          <Grid container spacing={1}>
+            {tech && tech.map((techName) => <Grid item key={techName}><Chip color="primary" label={techName} /></Grid>)}
+          </Grid>
           {/* <Typography sx={{ fontSize: { xs: '0.95rem', sm: '1rem' } }}>
           </Typography> */}
         </Stack>
@@ -237,7 +244,7 @@ export default function PortfolioCard({
           useTransition={useTransition}
           setUnfocused={setUnfocused}
         />
-        <Box sx={{ height: openingHeight, transition: useTransition ? 'height 0.2s' : '' }} />
+        <Box sx={{ height: openingHeight, transition: useTransition ? `height ${transitionTime}` : '' }} />
       </Box>
     </Grid>
   );
